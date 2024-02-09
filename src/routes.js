@@ -34,7 +34,7 @@ export const routes = [
 
       database.insert('tasks', task)
 
-      return writeHead(201).end(
+      return response.writeHead(201).end(
         JSON.stringify({ message: 'Task created!'})
       )
     }
@@ -114,12 +114,12 @@ export const routes = [
       const [task] = database.select('tasks', { id })
 
       if (!task) {
-        return res.writeHead(404).end()
+        return response.writeHead(404).end()
       }
 
       database.delete('tasks', id)
 
-      return res.writeHead(204).end()
+      return response.writeHead(204).end()
     }
   }
 ]
