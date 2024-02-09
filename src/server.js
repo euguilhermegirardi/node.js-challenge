@@ -18,9 +18,11 @@ const server = http.createServer(async(request, response) => {
 
     request.params = params
     request.query = query ? extractQueryParams(query) : {}
+
+    return route.handler(request, response)
   }
 
-  return response.writeHead(404).end()
+  return response.writeHead(404).end(JSON.stringify({ message: 'Oq ta rolando?' }))
 })
 
 server.listen(3333)

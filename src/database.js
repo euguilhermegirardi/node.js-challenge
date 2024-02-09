@@ -19,7 +19,7 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database, null, 2))
   }
 
-  select() {
+  select(table, search) {
     let data = this.#database[table] ?? []
 
     if(search) {
@@ -35,7 +35,7 @@ export class Database {
     return data
   }
 
-  insert() {
+  insert(table, data) {
     if (Array.isArray(this.#database[table])) {
       this.#database[table].push(data)
     } else {
@@ -47,7 +47,7 @@ export class Database {
     return data
   }
 
-  update() {
+  update(table, id, data) {
     const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
     if (rowIndex > -1) {
@@ -57,7 +57,7 @@ export class Database {
     }
   }
 
-  delete() {
+  delete(table, id) {
     const rowIndex = this.#database[table].findIndex(row => row.id === id)
 
     if (rowIndex > -1) {

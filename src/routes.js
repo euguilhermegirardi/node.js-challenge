@@ -1,21 +1,24 @@
 import { randomUUID } from 'node:crypto'
+import { Database } from './database.js'
 import { buildRoutePath } from './utils/build-route-path.js'
+
+const database = new Database()
 
 export const routes = [
   {
     method: 'POST',
     path: buildRoutePath('/tasks'),
-    handler: () => {
+    handler: (request, response) => {
       const { title, description } = request.body
 
       if(!title) {
-        return Response.writeHead(400).end(
+        return response.writeHead(400).end(
           JSON.stringify({ message: 'Title is required'})
         )
       }
 
       if(!description) {
-        return Response.writeHead(400).end(
+        return response.writeHead(400).end(
           JSON.stringify({ message: 'Description is required'})
         )
       }
@@ -30,6 +33,7 @@ export const routes = [
       }
 
       database.insert('tasks', task)
+
       return writeHead(201).end(
         JSON.stringify({ message: 'Task created!'})
       )
