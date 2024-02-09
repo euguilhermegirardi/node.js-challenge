@@ -1,17 +1,17 @@
-import { parse } from 'cvs-parse'
+import { parse } from 'csv-parse'
 import fs from 'node:fs'
 
-const cvsPath = new URL('./tasks.cvs', import.meta.url)
-const stream = fs.createReadStream(cvsPath)
+const csvPath = new URL('./tasks.csv', import.meta.url)
+const stream = fs.createReadStream(csvPath)
 
-const cvsParse = parse({
+const csvParse = parse({
   delimiter: ',',
   skipEmptyLines: true,
   fromLine: 2
 })
 
 async function run() {
-  const linesParse = stream.pipe(cvsParse)
+  const linesParse = stream.pipe(csvParse)
 
   for await (const line of linesParse) {
     const [title, description] = line
