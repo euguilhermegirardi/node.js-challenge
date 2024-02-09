@@ -56,7 +56,7 @@ export const routes = [
   {
     method: 'PUT',
     path: buildRoutePath('/tasks/:id'),
-    handler: () => {
+    handler: (request, response) => {
       const { id } = request.params
       const { title, description } = request.body
 
@@ -103,13 +103,15 @@ export const routes = [
       const completed_at = isTaskCompleted ? null : new Date()
 
       database.update('tasks', id, { completed_at })
+      
+      return response.writeHead(204).end(JSON.stringify({ message: 'The tasks was completed!'}))
     }
   },
   {
     method: 'DELETE',
     path: buildRoutePath('/tasks/:id'),
-    handler: () => {
-      const { id } = req.params
+    handler: (request, response) => {
+      const { id } = request.params
 
       const [task] = database.select('tasks', { id })
 
